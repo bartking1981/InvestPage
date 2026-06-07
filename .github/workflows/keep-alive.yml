@@ -1,0 +1,18 @@
+name: Keep Supabase Alive
+
+on:
+  schedule:
+    - cron: '0 12 */3 * *'   # cada 3 días al mediodía UTC
+  workflow_dispatch:          # permite ejecutarlo manualmente desde GitHub
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase
+        run: |
+          curl -s \
+            "https://otxkghzmmoipfghgsjis.supabase.co/rest/v1/portfolios?select=id&limit=1" \
+            -H "apikey: sb_publishable_7lOZfFbm6z85E9Viiw-ThA_fs0HO0VO" \
+            -H "Authorization: Bearer sb_publishable_7lOZfFbm6z85E9Viiw-ThA_fs0HO0VO" \
+            -o /dev/null -w "Status: %{http_code}\n"
